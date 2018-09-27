@@ -56,7 +56,7 @@ class Register extends Component {
       headers: { 'crossDomain': true },
    }
    axios
-     .post(`https://lambda-cs.herokuapp.com/api/registration/`, credentials)
+     .post(`https://muddy-waters.herokuapp.com/api/registration/`, credentials)
      .then(response => {
          console.log(response.data.key)
          localStorage.setItem('key', response.data.key);
