@@ -67,6 +67,7 @@ class Register extends Component {
  }
 
  handleChange = name => event => {
+  console.log(name)
   this.setState({
      [name]: event.target.value,
    });
@@ -83,14 +84,14 @@ class Register extends Component {
                 id="registration-username"
                 label="Username"
                 value={this.state.username}
-                onChange={this.handleChange}
+                onChange={this.handleChange('username')}
                 margin="normal"
                variant="outlined" />
          <TextField type="password"
                 id="registration-password"
                 label="Password"
                 value={this.state.password}
-                onChange={this.handleChange}
+                onChange={this.handleChange('password')}
                 margin="normal"
                variant="outlined" />
          <Button variant="contained" color="primary" className={classes.button} type="submit"> Register </Button>
