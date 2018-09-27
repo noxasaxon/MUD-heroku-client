@@ -57,7 +57,7 @@ class Register extends Component {
    }
    console.log(credentials)
    axios
-     .post(`https://muddy-waters.herokuapp.com/api/registration/`, credentials)
+     .post(`https://lambda-cs.herokuapp.com/api/registration/`, credentials)
      .then(response => {
          console.log(response.data.key)
          localStorage.setItem('key', response.data.key);
@@ -65,6 +65,12 @@ class Register extends Component {
      })
      .catch(err => console.log(err.response));
  }
+
+ handleChange = name => event => {
+  this.setState({
+     [name]: event.target.value,
+   });
+}
 
  render() {
    const { classes } = this.props;
@@ -77,14 +83,14 @@ class Register extends Component {
                 id="registration-username"
                 label="Username"
                 value={this.state.username}
-                onChange={this.handleInputChange}
+                onChange={this.handleChange}
                 margin="normal"
                variant="outlined" />
          <TextField type="password"
                 id="registration-password"
                 label="Password"
                 value={this.state.password}
-                onChange={this.handleInputChange}
+                onChange={this.handleChange}
                 margin="normal"
                variant="outlined" />
          <Button variant="contained" color="primary" className={classes.button} type="submit"> Register </Button>
