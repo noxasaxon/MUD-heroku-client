@@ -55,6 +55,7 @@ class Register extends Component {
       data: credentials,
       headers: { 'crossDomain': true },
    }
+   console.log(credentials)
    axios
      .post(`https://muddy-waters.herokuapp.com/api/registration/`, credentials)
      .then(response => {
