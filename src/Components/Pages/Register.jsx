@@ -50,13 +50,13 @@ class Register extends Component {
 
   handleRegister = e => {
    e.preventDefault();
-   const credentials = { username: this.state.username, password1: this.state.password };
+   const credentials = { username: this.state.username, password1: this.state.password, password2: this.state.password };
    const options = {
       data: credentials,
       headers: { 'crossDomain': true },
    }
    axios
-     .post(`https://lambda-cs.herokuapp.com/api/registration`, options)
+     .post(`https://lambda-cs.herokuapp.com/api/registration`, credentials)
      .then(response => {
          console.log(response.data.key)
          localStorage.setItem('key', response.data.key);
