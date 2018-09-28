@@ -6,28 +6,47 @@ import Login from './Components/Pages/Login';
 import Register from './Components/Pages/Register';
 import logo from './logo.svg';
 import './App.css';
+import axios from 'axios';
 
 class App extends Component {
-  state = {
-    user: undefined,
-    name: undefined
-  };
+  constructor() {
+    super();
+    this.state = {
+      initialResponse: null
+    };
+  }
 
   componentDidMount = () => {
     const userKey = localStorage.getItem('key');
-    console.log(userKey);
     if (userKey) {
-      console.log('key exists, removing key');
-      localStorage.removeItem('key');
+      this.initializeUser(userKey);
     }
   }; //end CDM
 
-  login = user => {
-    this.setState({ user });
+  initializeUser = token => {
+    //take the logged in user's key and get their player data from the server
+    const authToken = 'Token ' + token;
+    const requestOptions = { headers: { Authorization: authToken } };
+    axios
+      .get('https://lambda-cs.herokuapp.com/api/adv/init/', requestOptions)
+      .then(res => {
+        //{"uuid": "c3ee7f04-5137-427e-8591-7fcf0557dd7b",
+        // "name": "testuser", "title": "Outside Cave Entrance",
+        // "description": "North of you, the cave mount beckons", "players": []}
+        //set up app with new user data and location
+
+        this.setState({ initialResponse: res.data });
+      })
+      .catch(err => {
+        //key is wrong, delete key from storage
+        console.log(err.response);
+        this.logout();
+      });
   };
 
-  setUserInfo = name => {
-    this.setState({ name });
+  logout = () => {
+    localStorage.removeItem('key');
+    this.setState({ initialResponse: null });
   };
 
   loggedIn = () => {
@@ -44,13 +63,13 @@ class App extends Component {
         <Switch>
           <Route exact path="/">
             {this.loggedIn() ? (
-              <Home />
+              <Home init={this.state.initialResponse} />
             ) : (
-              <Login setUserInfo={this.setUserInfo} />
+              <Login initializeUser={this.initializeUser} />
             )}
           </Route>
           <Route path="/register">
-            <Register setUserInfo={this.setUserInfo} />
+            <Register initializeUser={this.initializeUser} />
           </Route>
         </Switch>
       </div>

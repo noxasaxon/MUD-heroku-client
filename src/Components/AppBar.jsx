@@ -274,6 +274,11 @@ class PersistentDrawer extends React.Component {
               </Typography>
               {this.showConsole()}
               <StyledLink to="/">
+              <Button color={"inherit"}  aria-label="Home" className={classes.homeButton}>
+                   <HomeIcon/> 
+               </Button>
+               </StyledLink>
+              <StyledLink to="/">
               <IconButton color={"inherit"}  aria-label="Home" className={classes.homeButton}>
                    <HomeIcon/> 
                </IconButton>

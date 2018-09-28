@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios'
 import scripts from '../../helpers/scripts'
-import {Link} from 'react-router-dom'
+import {Link, withRouter} from 'react-router-dom'
 import { withStyles } from '@material-ui/core/styles';
 import { TextField, Button, Card, CardContent, CardHeader, Typography} from '@material-ui/core/';
 import classNames from 'classnames';
@@ -44,8 +44,8 @@ const styles = theme => ({
 
 class Register extends Component {
    state = {
-      username: undefined,
-      password: undefined,
+      username: "",
+      password: "",
    }
 
   handleRegister = e => {
@@ -55,12 +55,13 @@ class Register extends Component {
       data: credentials,
       headers: { 'crossDomain': true },
    }
-   console.log(credentials)
    axios
      .post(`https://lambda-cs.herokuapp.com/api/registration/`, credentials)
      .then(response => {
+         //receive a token
          console.log(response.data.key)
-         localStorage.setItem('key', response.data.key);
+         const token = response.data.key
+         localStorage.setItem('key', token);
          this.props.history.push('/');
      })
      .catch(err => console.log(err.response));
@@ -101,4 +102,4 @@ class Register extends Component {
  }
 }
 
-export default withStyles(styles)(Register)
+export default withStyles(styles)(withRouter(Register))

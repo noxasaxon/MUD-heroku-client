@@ -50,8 +50,8 @@ class Login extends Component {
    constructor(){
       super()
       this.state = {
-         username: undefined,
-         password: undefined,
+         username: "",
+         password: "",
       }
    }
 
@@ -64,7 +64,7 @@ class Login extends Component {
       e.preventDefault();
       const credentials = { username: this.state.username, password: this.state.password };
       axios
-      .post(`${hkurl}/api/login`, credentials)
+      .post('https://lambda-cs.herokuapp.com/api/api/login', credentials)
       .then(response => {
          console.log(response.data.key)
          localStorage.setItem('key', response.data.key);

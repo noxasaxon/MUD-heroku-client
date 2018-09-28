@@ -18,6 +18,8 @@ import Register from '../../src/Components/Pages/Register';
 import { createMuiTheme } from '@material-ui/core/styles';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import App from '../../src/App';
+import Console from '../../src/Components/Console';
+import Home from '../../src/Components/Pages/Home';
 // import StoryRouter from 'storybook-react-router';
 
 const theme = createMuiTheme({
@@ -105,5 +107,17 @@ stories.add('App', () => (
     <Router>
       <App />
     </Router>
+  </MuiThemeProvider>
+));
+
+stories.add('Console', () => (
+  <MuiThemeProvider theme={theme}>
+    <Console />
+  </MuiThemeProvider>
+));
+
+stories.add('Home', () => (
+  <MuiThemeProvider theme={theme}>
+    <Home />
   </MuiThemeProvider>
 ));
