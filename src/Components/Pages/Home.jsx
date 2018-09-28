@@ -20,7 +20,8 @@ const styles = theme => ({
   },
   text:{
     color: '#00FF41',
-    marginRight: '1px'
+    marginTop:'2px'
+    
   },
   textField: {
     marginLeft: theme.spacing.unit,
@@ -28,6 +29,7 @@ const styles = theme => ({
   },
   commandInput: {
     outline: 'none !important',
+    width: '100%',
     color: '#00FF41',
     backgroundColor: 'black',
     border: 'none',
@@ -40,6 +42,8 @@ const styles = theme => ({
     '&::before' : {
       content: 'CC'
     },
+    fontSize:'1.1em',
+    paddingLeft: '4px',
    },
   button: {
      margin: theme.spacing.unit,
