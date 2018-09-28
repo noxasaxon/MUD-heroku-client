@@ -34,7 +34,7 @@ class App extends Component {
         // "name": "testuser", "title": "Outside Cave Entrance",
         // "description": "North of you, the cave mount beckons", "players": []}
         //set up app with new user data and location
-
+        console.log(res.data);
         this.setState({ initialResponse: res.data });
       })
       .catch(err => {
@@ -46,14 +46,16 @@ class App extends Component {
 
   logout = () => {
     localStorage.removeItem('key');
-    this.setState({ initialResponse: null });
   };
 
   loggedIn = () => {
     const userKey = localStorage.getItem('key');
     console.log(userKey);
     if (userKey) return true;
-    else return false;
+    else {
+      if (this.state.initialResponse) this.setState({ initialResponse: null });
+      return false;
+    }
   };
 
   render() {

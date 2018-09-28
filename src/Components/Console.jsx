@@ -10,7 +10,8 @@ const styles = theme => ({
     paddingTop: theme.spacing.unit * 2,
     paddingBottom: theme.spacing.unit * 2,
     backgroundColor: '#0D0208',
-    minHeight: `300px;`,
+        height: `70vh`,
+    minHeight: '500px',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between'
@@ -25,7 +26,8 @@ const styles = theme => ({
   text: {
    // color: ' #008F11'
    color: '#00FF41',
-   whiteSpace:'pre-wrap;'
+   whiteSpace:'pre-wrap;',
+   textAlign: 'left'
   }
 });
 
@@ -44,13 +46,13 @@ class Console extends Component {
                Lambda MUD
             </Typography>
             <div>
-               {this.props.log && this.props.log.map(textScript => 
-                  <Typography  className={classes.text} >
+               {this.props.log && this.props.log.map((textScript, i) => 
+                  <Typography variant='Body2' className={classes.text} key={i} >
                     {textScript}
                   </Typography>
                )}
                 {this.props.lastOutput &&
-                <Typography className={classes.text} component="p" >
+                <Typography variant='subheading' className={classes.text} component="p" >
                   {this.props.lastOutput}
                 </Typography>}
 

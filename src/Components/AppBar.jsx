@@ -43,7 +43,8 @@ const styles = theme => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
-    background: 'linear-gradient(to bottom, rgba(40, 119, 79, .55) 0%, rgba(40, 119, 79, .65) 30%, rgba(40, 119, 79, .75) 65%, rgba(40, 119, 79, .9) 85%, rgba(40, 119, 79, 1) 100%)',
+    // background: 'linear-gradient(to bottom, rgba(40, 119, 79, .55) 0%, rgba(40, 119, 79, .65) 30%, rgba(40, 119, 79, .75) 65%, rgba(40, 119, 79, .9) 85%, rgba(40, 119, 79, 1) 100%)',
+    background: 'linear-gradient(to bottom, rgba(0, 142, 16, .45) 0%, rgba(0, 142, 16, .65) 30%, rgba(0, 142, 16, .75) 65%, rgba(0, 142, 16, .9) 85%, rgba(0, 142, 16, 1) 100%)',
   },
   appBarShift: {
     width: `calc(100% - ${drawerWidth}px)`,

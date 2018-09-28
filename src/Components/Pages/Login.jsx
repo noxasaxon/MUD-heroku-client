@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios'
 import hkurl from '../../helpers/scripts'
-import {Link} from 'react-router-dom'
+import {Link, withRouter} from 'react-router-dom'
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 import { TextField, Button, Card, CardContent, CardHeader, Typography} from '@material-ui/core/';
@@ -68,6 +68,7 @@ class Login extends Component {
       .then(response => {
          console.log(response.data.key)
          localStorage.setItem('key', response.data.key);
+         this.props.initializeUser(response.data.key)
          this.props.history.push('/');
       })
       .catch(err => console.log(err.response));
@@ -117,4 +118,4 @@ class Login extends Component {
 
 
 
-export default withStyles(styles)(Login)
+export default withStyles(styles)(withRouter(Login))

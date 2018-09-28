@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import helpers from '../../helpers/scripts'
 import axios from 'axios'
 import hkurl from '../../helpers/scripts'
 import {Link} from 'react-router-dom'
@@ -13,13 +13,33 @@ const styles = theme => ({
   container: {
     // display: 'flex',
     // flexWrap: 'wrap',
+    marginTop: '20px',
+  },
+  home: {
+    
+  },
+  text:{
+    color: '#00FF41',
+    marginRight: '1px'
   },
   textField: {
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
   },
   commandInput: {
-
+    outline: 'none !important',
+    color: '#00FF41',
+    backgroundColor: 'black',
+    border: 'none',
+    '&::placeholder': {
+      color:'#00FF41'
+    },
+    '&input:focused': {
+      outline: 'none'
+    },
+    '&::before' : {
+      content: 'CC'
+    },
    },
   button: {
      margin: theme.spacing.unit,
@@ -31,15 +51,16 @@ const styles = theme => ({
    form:{
       display: 'flex',
       // flexDirection: 'column',
-      justifyContent: 'space-between',
+      justifyContent: 'left',
       backgroundColor: '#0D0208',
-      marginLeft: '15px',
+      marginLeft: '4px',
       borderRadius: '4px'
       // alignItems: 'center'
    },
 });
 
-
+const validateCommand = helpers.validateCommand
+const serverUrl = helpers.hkurl
 class Home extends Component {
   //pass log to Console, maxLogSize is changed depending on media query
   //command is given by user and sent to server
@@ -51,7 +72,7 @@ class Home extends Component {
       log: [],
       lastResponse: ``,
       command: '',
-      maxLogSize: 10,
+      maxLogSize: 6,
       uuid: '',
       players:[],
     }
@@ -62,6 +83,7 @@ class Home extends Component {
         {"uuid": "c3ee7f04-5137-427e-8591-7fcf0557dd7b",
         "name": "testuser", "title": "Outside Cave Entrance",
         "description": "North of you, the cave mount beckons", "players": []} */
+        console.log(this.props)
     if(this.props && this.props.init){
       //props exist, set state
       const init = this.props.init
@@ -78,11 +100,52 @@ class Home extends Component {
   };//endCDM
 
   componentDidUpdate(prevProps){
+    if(!prevProps.init && this.props.init){
+      const init = this.props.init
+      //stringify room data into a template literal for log to console
+      let roomInfo = `${init.title}
+      ${init.description}`
 
+      this.setState({uuid: init.uuid, name: init.name, players: init.players, log: [roomInfo]})
+    }
   }
 
-  tryCommand = (command) => {
+  tryCommand = e => {
+      e.preventDefault();
+      const command = this.state.command
+      console.log(command)
+    const testedCom = validateCommand(command)
+    console.log(testedCom)
+    if (testedCom){
+      //command is valid, send it
+      const authToken = 'Token ' + localStorage.getItem('key');
+      const headers = { headers: { Authorization: authToken }};
+      axios
+        .post('https://lambda-cs.herokuapp.com/api/adv/move/', testedCom, headers)
+        .then(res => {
+          //{"uuid": "c3ee7f04-5137-427e-8591-7fcf0557dd7b",
+          // "name": "testuser", "title": "Outside Cave Entrance",
+          // "description": "North of you, the cave mount beckons", "players": []
+          // 'error_msg': ''}
+          //set up app with new user data and location
+          console.log(res.data);
+          if(res.data.error_msg.length > 0) alert(res.data.error_msg)
+          else{
+            console.log('test')
+            this.addText(`${res.data.title}\n${res.data.description}`)
 
+            this.setState({ players: res.data.players, command: '' });
+          }
+          
+          
+        })
+        .catch(err => {
+          //key is wrong, delete key from storage
+          console.log(err)
+          console.log(err.response);
+          // this.logout();
+        });
+    }
   }
 
   parseResponse = (response) => {
@@ -96,11 +159,12 @@ class Home extends Component {
   addText = (string) => {
     // let newLog = this.state.log + this.state.lastOutput
     const newLog = this.state.log
+    console.log(newLog)
     let newText = `- - - - - - - - - - - - -
     ${string}`
-    newLog.append(this.state.lastOutput)
+    newLog.push(this.state.lastOutput)
     // const lines = (newLog.match(/\r?\n/g) || '').length + 1
-    if (newLog.length > 3) {
+    if (newLog.length > this.state.maxLogSize) {
        //if the log is full, delete the oldest command
        newLog.shift()
     }
@@ -117,16 +181,17 @@ class Home extends Component {
   render() {
     const { classes } = this.props;
     return (
-      <div className="Home">
+      <div className={classes.home}>
       {/* <Typography variant="headline">Current Room: {this.state.room.name}</Typography> */}
       <Console log={this.state.log} lastOutput={this.state.lastOutput}>
-      <form onSubmit={this.enterCommand} className={classNames(classes.container, classes.form)} noValidate autoComplete="off">
-      <input id="commandInput" placeholder="Enter command"
+      <form onSubmit={this.tryCommand} className={classNames(classes.container, classes.form)} noValidate autoComplete="off">
+      <span className={classes.text}>>>></span>
+      <input id="commandInput" 
                      name="commandInput"
                      value={this.state.command}
                      onChange={this.handleChange('command')}
                      className={classes.commandInput} />
-        <Button variant="contained" color="primary" className={classes.button} type="submit"> Submit Command </Button>
+        {/* <Button variant="contained" color="primary" className={classes.button} type="submit"> Submit Command </Button> */}
       </form>
       </Console>
       </div>
