@@ -30,5 +30,9 @@ module.exports = {
     else if (dir === 'w' || dir === 'west') return 'w';
     else if (dir === 'e' || dir === 'east') return 'e';
     else return false;
+  },
+  pusher: {
+    APP_KEY: '5dedf326a82a4fd54ed3',
+    APP_CLUSTER: 'us2'
   }
 };

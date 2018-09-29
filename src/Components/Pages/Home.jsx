@@ -8,6 +8,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { Paper, TextField, Button, Card, CardContent, CardHeader, Typography} from '@material-ui/core/';
 import Console from '../Console'
 import '../../styles/home.css'
+import Pusher from 'pusher-js'
 
 const styles = theme => ({
   container: {
@@ -66,6 +67,14 @@ const styles = theme => ({
 const validateCommand = helpers.validateCommand
 const serverUrl = helpers.hkurl
 
+// const socket = new Pusher(helpers.APP_KEY, {
+//   cluster: helpers.APP_CLUSTER,
+// });
+
+// var channel = pusher.subscribe(`p-channel-${data.uuid}`);
+// channel.bind('broadcast', function(data) {
+// alert(data.message);
+
 class Home extends Component {
   //pass log to Console, maxLogSize is changed depending on media query
   //command is given by user and sent to server
@@ -88,7 +97,6 @@ class Home extends Component {
         {"uuid": "c3ee7f04-5137-427e-8591-7fcf0557dd7b",
         "name": "testuser", "title": "Outside Cave Entrance",
         "description": "North of you, the cave mount beckons", "players": []} */
-        console.log(this.props)
     if(this.props && this.props.init){
       //props exist, set state
       const init = this.props.init
@@ -105,8 +113,6 @@ class Home extends Component {
   };//endCDM
 
   componentDidUpdate(prevProps){
-    console.log(prevProps)
-    console.log(this.props)
     if(!prevProps.init && this.props.init){
       const init = this.props.init
       //stringify room data into a template literal for log to console
@@ -126,6 +132,7 @@ class Home extends Component {
     if (testedCom){
       //command is valid, send it
       const authToken = 'Token ' + localStorage.getItem('key');
+      console.log(authToken)
       const headers = { headers: { Authorization: authToken }};
       axios
         .post('https://lambda-cs.herokuapp.com/api/adv/move/', testedCom, headers)

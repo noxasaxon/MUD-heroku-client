@@ -7,6 +7,8 @@ import Register from './Components/Pages/Register';
 import logo from './logo.svg';
 import './App.css';
 import axios from 'axios';
+import helpers from './helpers/scripts';
+import Pusher from 'pusher-js';
 
 class App extends Component {
   constructor() {
@@ -36,12 +38,20 @@ class App extends Component {
         //set up app with new user data and location
         console.log(res.data);
         this.setState({ initialResponse: res.data });
-        this.forceUpdate();
+
+        const socket = new Pusher(helpers.APP_KEY, {
+          cluster: helpers.APP_CLUSTER
+        });
+
+        var channel = socket.subscribe(`p-channel-${res.data.uuid}`);
+        channel.bind('broadcast', function(data) {
+          alert(data.message);
+        });
       })
       .catch(err => {
         //key is wrong, delete key from storage
         console.log(err.response);
-        this.logout();
+        // this.logout();
       });
   };
 

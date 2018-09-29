@@ -56,15 +56,15 @@ class Login extends Component {
    }
 
 
-   componentDidMount(){
-      console.log(this)
-   }
+
 
    handleLogin = e => {
       e.preventDefault();
+      localStorage.removeItem('key');
       const credentials = { username: this.state.username, password: this.state.password };
+      console.log(credentials)
       axios
-      .post('https://lambda-cs.herokuapp.com/api/api/login', credentials)
+      .post('https://lambda-cs.herokuapp.com/api/login', credentials)
       .then(response => {
          console.log(response.data.key)
          localStorage.setItem('key', response.data.key);
@@ -75,10 +75,11 @@ class Login extends Component {
    }
 
    handleChange = name => event => {
-
+    console.log(event.target.value)
       this.setState({
          [name]: event.target.value,
        });
+       console.log(this.state.password)
    }
 
 
