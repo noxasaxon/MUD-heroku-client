@@ -36,6 +36,7 @@ class App extends Component {
         //set up app with new user data and location
         console.log(res.data);
         this.setState({ initialResponse: res.data });
+        this.forceUpdate();
       })
       .catch(err => {
         //key is wrong, delete key from storage

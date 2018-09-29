@@ -65,6 +65,7 @@ const styles = theme => ({
 
 const validateCommand = helpers.validateCommand
 const serverUrl = helpers.hkurl
+
 class Home extends Component {
   //pass log to Console, maxLogSize is changed depending on media query
   //command is given by user and sent to server
@@ -76,7 +77,7 @@ class Home extends Component {
       log: [],
       lastResponse: ``,
       command: '',
-      maxLogSize: 6,
+      maxLogSize: 4,
       uuid: '',
       players:[],
     }
@@ -104,6 +105,8 @@ class Home extends Component {
   };//endCDM
 
   componentDidUpdate(prevProps){
+    console.log(prevProps)
+    console.log(this.props)
     if(!prevProps.init && this.props.init){
       const init = this.props.init
       //stringify room data into a template literal for log to console

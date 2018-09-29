@@ -274,16 +274,9 @@ class PersistentDrawer extends React.Component {
               Lambda MUD
               </Typography>
               {this.showConsole()}
-              <StyledLink to="/">
-              <Button color={"inherit"}  aria-label="Home" className={classes.homeButton}>
-                   <HomeIcon/> 
-               </Button>
-               </StyledLink>
-              <StyledLink to="/">
-              <IconButton color={"inherit"}  aria-label="Home" className={classes.homeButton}>
-                   <HomeIcon/> 
-               </IconButton>
-               </StyledLink>
+            
+              <Button href="/" color="secondary" onClick={() => localStorage.removeItem('key')}> Logout </Button>
+              
             </Toolbar>
           </AppBar>
           {drawer}
@@ -295,7 +288,6 @@ class PersistentDrawer extends React.Component {
             })}
           >
             <div className={classes.drawerHeader} />
-            {/* <Typography>{'You think water moves fast? You should see ice.'}</Typography> */}
             <App />
           </main>
         </div>

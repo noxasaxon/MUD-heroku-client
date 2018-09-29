@@ -62,6 +62,7 @@ class Register extends Component {
          console.log(response.data.key)
          const token = response.data.key
          localStorage.setItem('key', token);
+         this.props.initializeUser(token)
          this.props.history.push('/');
      })
      .catch(err => console.log(err.response));

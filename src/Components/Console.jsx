@@ -10,8 +10,8 @@ const styles = theme => ({
     paddingTop: theme.spacing.unit * 2,
     paddingBottom: theme.spacing.unit * 2,
     backgroundColor: '#0D0208',
-        height: `70vh`,
-    minHeight: '500px',
+        height: `75vh`,
+    minHeight: '250px',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between'
@@ -47,7 +47,7 @@ class Console extends Component {
             </Typography>
             <div>
                {this.props.log && this.props.log.map((textScript, i) => 
-                  <Typography variant='Body2' className={classes.text} key={i} >
+                  <Typography variant='subheading' className={classes.text} key={i} >
                     {textScript}
                   </Typography>
                )}
