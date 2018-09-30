@@ -7,7 +7,6 @@ import './App.css';
 import axios from 'axios';
 import helpers from './helpers/scripts';
 import Pusher from 'pusher-js';
-import helpers from '../../helpers/scripts';
 
 const hkurl = helpers.hkurl;
 
