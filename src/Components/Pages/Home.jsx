@@ -131,34 +131,39 @@ class Home extends Component {
     console.log(testedCom)
     if (testedCom){
       //command is valid, send it
-      const authToken = 'Token ' + localStorage.getItem('key');
-      console.log(authToken)
-      const headers = { headers: { Authorization: authToken }};
-      axios
-        .post('https://lambda-cs.herokuapp.com/api/adv/move/', testedCom, headers)
-        .then(res => {
-          //{"uuid": "c3ee7f04-5137-427e-8591-7fcf0557dd7b",
-          // "name": "testuser", "title": "Outside Cave Entrance",
-          // "description": "North of you, the cave mount beckons", "players": []
-          // 'error_msg': ''}
-          //set up app with new user data and location
-          console.log(res.data);
-          if(res.data.error_msg.length > 0) alert(res.data.error_msg)
-          else{
-            console.log('test')
-            this.addText(`${res.data.title}\n${res.data.description}`)
+      if(testedCom['direction']){
+        const authToken = 'Token ' + localStorage.getItem('key');
+        const headers = { headers: { Authorization: authToken }};
+        axios
+          .post('https://lambda-cs.herokuapp.com/api/adv/move/', testedCom, headers)
+          .then(res => {
+            //{"uuid": "c3ee7f04-5137-427e-8591-7fcf0557dd7b",
+            // "name": "testuser", "title": "Outside Cave Entrance",
+            // "description": "North of you, the cave mount beckons", "players": []
+            // 'error_msg': ''}
+            //set up app with new user data and location
+            console.log(res.data);
+            if(res.data.error_msg.length > 0) alert(res.data.error_msg)
+            else{
+              this.addText(`${res.data.title}\n${res.data.description}`)
+  
+              this.setState({ players: res.data.players, command: '' });
+            }
+            
+            
+          })
+          .catch(err => {
+            //key is wrong, delete key from storage
+            console.log(err)
+            console.log(err.response);
+            // this.logout();
+          });
+      }else if(testedCom['say']){
+        //try say command
+        this.say(testedCom)
+          
+      }
 
-            this.setState({ players: res.data.players, command: '' });
-          }
-          
-          
-        })
-        .catch(err => {
-          //key is wrong, delete key from storage
-          console.log(err)
-          console.log(err.response);
-          // this.logout();
-        });
     }
   }
 
@@ -166,8 +171,32 @@ class Home extends Component {
 
   }
 
-  say(){
+  say(sayObj){
+    const authToken = 'Token ' + localStorage.getItem('key');
+    const headers = { headers: { Authorization: authToken }};
+    axios
+      .post('https://lambda-cs.herokuapp.com/api/adv/say/', sayObj, headers)
+      .then(res => {
+        // res.data is {'name':player.name, 'message':message, 'error_msg':""}
+        //set up app with new user data and location
+        console.log(res.data);
+        if(res.data.error_msg.length > 0) alert(res.data.error_msg)
+        else{
+          console.log('test')
+          // this.addText(`${res.data.title}\n${res.data.description}`)
+          alert(res.data)
 
+          this.setState({command: '' });
+        }
+        
+        
+      })
+      .catch(err => {
+        //key is wrong, delete key from storage
+        console.log(err)
+        console.log(err.response);
+        
+      });
   }
 
   addText = (string) => {

@@ -14,7 +14,8 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      initialResponse: null
+      initialResponse: null,
+      pusher: null
     };
   }
 
@@ -37,16 +38,24 @@ class App extends Component {
         // "description": "North of you, the cave mount beckons", "players": []}
         //set up app with new user data and location
         console.log(res.data);
+
         this.setState({ initialResponse: res.data });
 
+        Pusher.logToConsole = true;
         const socket = new Pusher(helpers.APP_KEY, {
-          cluster: helpers.APP_CLUSTER
+          cluster: helpers.APP_CLUSTER,
+          forceTLS: true
         });
 
+        console.log('test2');
+
         var channel = socket.subscribe(`p-channel-${res.data.uuid}`);
+        console.log('test3');
         channel.bind('broadcast', function(data) {
           alert(data.message);
         });
+        console.log('test4');
+        this.setState({ pusher: { socket: socket, channel: channel } });
       })
       .catch(err => {
         //key is wrong, delete key from storage
@@ -76,7 +85,10 @@ class App extends Component {
         <Switch>
           <Route exact path="/">
             {this.loggedIn() ? (
-              <Home init={this.state.initialResponse} />
+              <Home
+                init={this.state.initialResponse}
+                pusher={this.state.pusher}
+              />
             ) : (
               <Login initializeUser={this.initializeUser} />
             )}
