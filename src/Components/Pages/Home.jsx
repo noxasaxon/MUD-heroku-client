@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import helpers from '../../helpers/scripts'
 import axios from 'axios'
-import hkurl from '../../helpers/scripts'
-import {Link} from 'react-router-dom'
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 import { Paper, TextField, Button, Card, CardContent, CardHeader, Typography} from '@material-ui/core/';
 import Console from '../Console'
 import '../../styles/home.css'
 import Pusher from 'pusher-js'
+
+const hkurl = helpers.hkurl
 
 const styles = theme => ({
   container: {
@@ -66,14 +66,6 @@ const styles = theme => ({
 
 const validateCommand = helpers.validateCommand
 const serverUrl = helpers.hkurl
-
-// const socket = new Pusher(helpers.APP_KEY, {
-//   cluster: helpers.APP_CLUSTER,
-// });
-
-// var channel = pusher.subscribe(`p-channel-${data.uuid}`);
-// channel.bind('broadcast', function(data) {
-// alert(data.message);
 
 class Home extends Component {
   //pass log to Console, maxLogSize is changed depending on media query
@@ -135,7 +127,7 @@ class Home extends Component {
         const authToken = 'Token ' + localStorage.getItem('key');
         const headers = { headers: { Authorization: authToken }};
         axios
-          .post('https://lambda-cs.herokuapp.com/api/adv/move/', testedCom, headers)
+          .post(`${hkurl}/api/adv/move/`, testedCom, headers)
           .then(res => {
             //{"uuid": "c3ee7f04-5137-427e-8591-7fcf0557dd7b",
             // "name": "testuser", "title": "Outside Cave Entrance",
@@ -175,7 +167,7 @@ class Home extends Component {
     const authToken = 'Token ' + localStorage.getItem('key');
     const headers = { headers: { Authorization: authToken }};
     axios
-      .post('https://lambda-cs.herokuapp.com/api/adv/say/', sayObj, headers)
+      .post(`${hkurl}/api/adv/say/`, sayObj, headers)
       .then(res => {
         // res.data is {'name':player.name, 'message':message, 'error_msg':""}
         //set up app with new user data and location

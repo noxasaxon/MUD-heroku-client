@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 import { Switch, Route, withRouter } from 'react-router';
-import { Link } from 'react-router-dom';
 import Home from './Components/Pages/Home';
 import Login from './Components/Pages/Login';
 import Register from './Components/Pages/Register';
-import logo from './logo.svg';
 import './App.css';
 import axios from 'axios';
 import helpers from './helpers/scripts';
 import Pusher from 'pusher-js';
+import helpers from '../../helpers/scripts';
+
+const hkurl = helpers.hkurl;
 
 class App extends Component {
   constructor() {
@@ -31,7 +32,7 @@ class App extends Component {
     const authToken = 'Token ' + token;
     const requestOptions = { headers: { Authorization: authToken } };
     axios
-      .get('https://lambda-cs.herokuapp.com/api/adv/init/', requestOptions)
+      .get(`${hkurl}/api/adv/init/`, requestOptions)
       .then(res => {
         //{"uuid": "c3ee7f04-5137-427e-8591-7fcf0557dd7b",
         // "name": "testuser", "title": "Outside Cave Entrance",
@@ -52,7 +53,8 @@ class App extends Component {
         var channel = socket.subscribe(`p-channel-${res.data.uuid}`);
         console.log('test3');
         channel.bind('broadcast', function(data) {
-          alert(data.message);
+          alert(data);
+          console.log(data);
         });
         console.log('test4');
         this.setState({ pusher: { socket: socket, channel: channel } });

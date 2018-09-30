@@ -6,7 +6,7 @@ String.prototype.count = function(c) {
   return result;
 };
 module.exports = {
-  hkurl: 'http://lambda-cs.herokuapp.com',
+  hkurl: 'https://lambda-cs.herokuapp.com',
   validateCommand: command => {
     const com = command.trim();
     console.log(com);

@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import axios from 'axios'
-import hkurl from '../../helpers/scripts'
+import helpers from '../../helpers/scripts'
 import {Link, withRouter} from 'react-router-dom'
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 import { TextField, Button, Card, CardContent, CardHeader, Typography} from '@material-ui/core/';
 
-
+const hkurl = helpers.hkurl
 
 const styles = theme => ({
    container: {
@@ -60,11 +60,12 @@ class Login extends Component {
 
    handleLogin = e => {
       e.preventDefault();
+      console.log(hkurl)
       localStorage.removeItem('key');
       const credentials = { username: this.state.username, password: this.state.password };
       console.log(credentials)
       axios
-      .post('https://lambda-cs.herokuapp.com/api/login', credentials)
+      .post(`${hkurl}/api/login`, credentials)
       .then(response => {
          console.log(response.data.key)
          localStorage.setItem('key', response.data.key);

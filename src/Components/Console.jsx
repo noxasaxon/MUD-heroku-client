@@ -32,9 +32,6 @@ const styles = theme => ({
 });
 
 class Console extends Component {
-   constructor(){
-      super()
-   }
 
    render(){
       const { classes } = this.props;

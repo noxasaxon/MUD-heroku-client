@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import axios from 'axios'
-import scripts from '../../helpers/scripts'
-import {Link, withRouter} from 'react-router-dom'
+import helpers from '../../helpers/scripts'
+import { withRouter } from 'react-router-dom'
 import { withStyles } from '@material-ui/core/styles';
-import { TextField, Button, Card, CardContent, CardHeader, Typography} from '@material-ui/core/';
+import { TextField, Button, Card, CardContent, Typography} from '@material-ui/core/';
 import classNames from 'classnames';
 
-const hkurl = scripts.hkurl
+const hkurl = helpers.hkurl
 
 const styles = theme => ({
    container: {
@@ -56,7 +56,7 @@ class Register extends Component {
       headers: { 'crossDomain': true },
    }
    axios
-     .post(`https://lambda-cs.herokuapp.com/api/registration/`, credentials)
+     .post(`${hkurl}/api/registration/`, credentials)
      .then(response => {
          //receive a token
          console.log(response.data.key)
